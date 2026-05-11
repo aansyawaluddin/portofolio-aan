@@ -17,7 +17,7 @@ async function getExperiences() {
   const { data, error } = await supabase
     .from('experiences')
     .select('*')
-    .order('order_index', { ascending: true }); 
+    .order('order_index', { ascending: true });
 
   if (error) {
     console.error('Gagal mengambil data experiences:', error);
@@ -26,9 +26,29 @@ async function getExperiences() {
   return data;
 }
 
+async function getProjects() {
+  const { data, error } = await supabase
+    .from('projects')
+    .select(`
+      *,
+      project_tech_stacks (
+        tech_stacks (*)
+      )
+    `)
+    .eq('status', 'PUBLISHED')
+    .order('created_at', { ascending: false });
+
+  if (error) {
+    console.error('Gagal mengambil data projects:', error);
+    return [];
+  }
+  return data;
+}
+
 export default async function Home() {
   const techStacks = await getTechStacks();
   const experiences = await getExperiences();
+  const projects = await getProjects();
 
   const mobileStacks = techStacks.filter(t => t.category === 'MOBILE_INTERFACE');
   const backendStacks = techStacks.filter(t => t.category === 'BACKEND_INFRA');
@@ -138,80 +158,78 @@ export default async function Home() {
           </div>
         </section>
 
-        {/* Featured Projects Section */}
+        {/* Featured Projects Section (DINAMIS) */}
         <section className="max-w-[1200px] mx-auto px-gutter py-section-gap" id="projects">
           <div className="mb-12">
             <h2 className="font-headline-md text-headline-md text-on-surface">Featured Projects</h2>
           </div>
           <div className="grid lg:grid-cols-2 gap-12">
-            <div className="flex flex-col bg-surface-container border border-outline-variant rounded-2xl overflow-hidden group hover:border-primary/50 transition-all">
-              <div className="relative overflow-hidden aspect-video bg-surface-container-high">
-                <div className="absolute top-4 left-4 flex gap-2">
-                  <span className="bg-primary/20 backdrop-blur-md text-primary text-[10px] font-bold px-2 py-1 rounded border border-primary/30 uppercase tracking-wider">Node.js</span>
-                  <span className="bg-secondary/20 backdrop-blur-md text-secondary text-[10px] font-bold px-2 py-1 rounded border border-secondary/30 uppercase tracking-wider">Socket.io</span>
-                </div>
-              </div>
-              <div className="p-8 space-y-4">
-                <h3 className="font-headline-sm text-headline-sm">Aplikasi Cerdas Cermat (Real-time Quiz)</h3>
-                <p className="font-body-md text-on-surface-variant">Merancang dan mengimplementasikan arsitektur real-time event untuk memastikan sinkronisasi waktu nyata antar pemain.</p>
-                <div className="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-lg">
-                  <div className="flex items-start gap-2 text-secondary font-code-md text-xs">
-                    <span className="material-symbols-outlined text-sm mt-0.5">terminal</span>
-                    <p className="text-[11px] leading-relaxed italic text-outline">"Tantangan utama saya di sisi Backend adalah menggunakan Socket.io untuk memastikan sinkronisasi instan state kuis (soal, skor, waktu) di semua perangkat klien seluler."</p>
-                  </div>
-                </div>
-              </div>
-            </div>
 
-            <div className="flex flex-col bg-surface-container border border-outline-variant rounded-2xl overflow-hidden group hover:border-secondary/50 transition-all">
-              <div className="relative overflow-hidden aspect-video bg-surface-container-high">
-                <div className="absolute top-4 left-4 flex gap-2">
-                  <span className="bg-secondary/20 backdrop-blur-md text-secondary text-[10px] font-bold px-2 py-1 rounded border border-secondary/30 uppercase tracking-wider">Node.js</span>
-                  <span className="bg-white/10 backdrop-blur-md text-white text-[10px] font-bold px-2 py-1 rounded border border-white/20 uppercase tracking-wider">Prisma ORM</span>
-                  <span className="bg-primary/20 backdrop-blur-md text-primary text-[10px] font-bold px-2 py-1 rounded border border-primary/30 uppercase tracking-wider">Nginx</span>
-                </div>
-              </div>
-              <div className="p-8 space-y-4">
-                <h3 className="font-headline-sm text-headline-sm">SIMONEVA (Sistem Monitoring & Evaluasi)</h3>
-                <p className="font-body-md text-on-surface-variant">Merancang skema database relasional kompleks dan arsitektur server berbasis Role-Based Access Control (RBAC).</p>
-                <div className="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-lg">
-                  <div className="flex items-start gap-2 text-primary font-code-md text-xs">
-                    <span className="material-symbols-outlined text-sm mt-0.5">database</span>
-                    <p className="text-[11px] leading-relaxed italic text-outline">"Peran saya di Backend adalah merancang skema Prisma dan kueri relasional yang efisien. Saya juga mengonfigurasi SSL pada reverse proxy Nginx untuk mengamankan data."</p>
-                  </div>
-                </div>
-              </div>
-            </div>
+            {projects.length === 0 ? (
+              <p className="text-outline font-code-md italic pl-4">No published projects found.</p>
+            ) : (
+              projects.map((project, index) => {
+                // Membuat kartu pertama jadi lebar (col-span-2) jika jumlah proyek ganjil agar estetik
+                const isLargeCard = index === 0 && projects.length % 2 !== 0;
 
-            <div className="lg:col-span-2 flex flex-col md:flex-row bg-surface-container border border-outline-variant rounded-2xl overflow-hidden group hover:border-on-surface/30 transition-all">
-              <div className="md:w-1/3 relative overflow-hidden bg-surface-container-high border-r border-outline-variant/20">
-                <div className="absolute inset-0 flex items-center justify-center opacity-10">
-                  <span className="material-symbols-outlined text-[120px]">directions_run</span>
-                </div>
-                <div className="relative p-12 h-full flex flex-col justify-center items-center">
-                  <div className="p-4 bg-primary/20 rounded-full mb-4">
-                    <span className="material-symbols-outlined text-primary text-4xl">directions_run</span>
+                return (
+                  <div key={project.id} className={`flex flex-col ${isLargeCard ? 'lg:col-span-2 md:flex-row' : ''} bg-surface-container border border-outline-variant rounded-2xl overflow-hidden group hover:border-primary/50 transition-all shadow-xl shadow-black/20`}>
+
+                    {/* Visual Asset */}
+                    <div className={`relative overflow-hidden ${isLargeCard ? 'md:w-1/3' : 'aspect-video'} bg-surface-container-high border-b md:border-b-0 md:border-r border-outline-variant/20`}>
+                      {project.visual_asset_url ? (
+                        <img
+                          src={project.visual_asset_url}
+                          alt={project.title}
+                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                        />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center opacity-10">
+                          <span className="material-symbols-outlined text-[120px]">architecture</span>
+                        </div>
+                      )}
+
+                      {/* Tech Tags on top of image */}
+                      <div className="absolute top-4 left-4 flex flex-wrap gap-2 pr-4">
+                        {project.project_tech_stacks?.map((rel) => (
+                          <span key={rel.tech_stacks.id} className="bg-primary/20 backdrop-blur-md text-primary text-[10px] font-bold px-2 py-1 rounded border border-primary/30 uppercase tracking-wider shadow-sm">
+                            {rel.tech_stacks.name}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Content Details */}
+                    <div className="p-8 flex-1 space-y-4 flex flex-col justify-between">
+                      <div>
+                        <h3 className="font-headline-sm text-headline-sm mb-2">{project.title}</h3>
+                        <p className="font-body-md text-on-surface-variant line-clamp-3">{project.description}</p>
+                      </div>
+
+                      {project.backend_logic && (
+                        <div className="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-lg">
+                          <div className="flex items-start gap-2 text-secondary font-code-md text-xs">
+                            <span className="material-symbols-outlined text-sm mt-0.5">terminal</span>
+                            <p className="text-[11px] leading-relaxed italic text-outline line-clamp-4">"{project.backend_logic}"</p>
+                          </div>
+                        </div>
+                      )}
+
+                      <div className="flex gap-4 pt-4 border-t border-outline-variant/30">
+                        <span className="flex items-center gap-2 text-sm text-outline">
+                          <span className="material-symbols-outlined text-sm">architecture</span> {project.core_focus}
+                        </span>
+                      </div>
+                    </div>
                   </div>
-                  <span className="font-label-caps text-primary tracking-widest">FLUTTER PROJECT</span>
-                </div>
-              </div>
-              <div className="p-8 md:p-12 flex-1 space-y-6">
-                <div className="flex justify-between items-start">
-                  <h3 className="font-headline-md text-headline-md">RunMates</h3>
-                  <span className="text-xs font-code-md text-outline">v1.0.0</span>
-                </div>
-                <p className="font-body-lg text-on-surface-variant">
-                  A mobile application developed using the <strong>Waterfall Method</strong>, specifically designed for beginner runners in Makassar to find running mates and track routes.
-                </p>
-                <div className="flex gap-4">
-                  <span className="flex items-center gap-2 text-sm text-outline"><span className="material-symbols-outlined text-sm">location_on</span> Makassar, ID</span>
-                  <span className="flex items-center gap-2 text-sm text-outline"><span className="material-symbols-outlined text-sm">architecture</span> Waterfall Dev</span>
-                </div>
-              </div>
-            </div>
+                );
+              })
+            )}
+
           </div>
         </section>
 
+        {/* Experience Section */}
         <section className="max-w-[1200px] mx-auto px-gutter py-section-gap" id="experience">
           <div className="mb-12">
             <h2 className="font-headline-md text-headline-md text-on-surface">Experience & Certifications</h2>
@@ -233,14 +251,14 @@ export default async function Home() {
                     <div className="absolute left-0 top-1.5 w-8 h-8 bg-surface-container-high border border-outline-variant rounded-full flex items-center justify-center z-10">
                       <span className={`w-2 h-2 rounded-full ${dotColor}`}></span>
                     </div>
-                    <div className="bg-surface-container-low border border-outline-variant p-6 rounded-xl">
+                    <div className="bg-surface-container-low border border-outline-variant p-6 rounded-xl shadow-lg shadow-black/5 hover:border-primary/30 transition-colors">
                       <div className="flex flex-col md:flex-row md:justify-between mb-4 gap-2">
                         <h3 className="font-headline-sm text-headline-sm">{exp.title}</h3>
                         <span className={`font-label-caps text-[10px] px-2 py-1 rounded self-start ${badgeStyle}`}>
                           {exp.status_badge}
                         </span>
                       </div>
-                      <p className="text-on-surface-variant font-body-md whitespace-pre-line">
+                      <p className="text-on-surface-variant font-body-md whitespace-pre-line leading-relaxed">
                         {exp.description}
                       </p>
                     </div>
