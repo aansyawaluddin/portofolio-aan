@@ -1,5 +1,7 @@
 import { supabase } from '@/lib/supabase';
 
+export const revalidate = 0;
+
 async function getTechStacks() {
   const { data, error } = await supabase
     .from('tech_stacks')
