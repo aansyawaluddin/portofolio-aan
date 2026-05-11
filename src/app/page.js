@@ -115,8 +115,8 @@ export default async function Home() {
           <div className="grid md:grid-cols-3 gap-stack-lg">
             <div className="p-6 bg-surface-container-low border border-outline-variant rounded-xl hover:border-primary transition-colors group">
               <div className="flex items-center gap-3 mb-6">
-                <span className="material-symbols-outlined text-primary group-hover:scale-110 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>smartphone</span>
-                <h3 className="font-headline-sm text-headline-sm">Mobile</h3>
+                <span className="material-symbols-outlined text-primary group-hover:scale-110 transition-transform" style={{ fontVariationSettings: "'FILL' 1" }}>frontend</span>
+                <h3 className="font-headline-sm text-headline-sm">Frontend</h3>
               </div>
               <div className="space-y-3">
                 {mobileStacks.map((tech) => (
