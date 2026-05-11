@@ -205,14 +205,14 @@ export default async function Home() {
                     <div className="p-8 flex-1 space-y-4 flex flex-col justify-between">
                       <div>
                         <h3 className="font-headline-sm text-headline-sm mb-2">{project.title}</h3>
-                        <p className="font-body-md text-on-surface-variant line-clamp-3">{project.description}</p>
+                        <p className="font-body-md text-on-surface-variant">{project.description}</p>
                       </div>
 
                       {project.backend_logic && (
                         <div className="p-4 bg-surface-container-lowest border border-outline-variant/30 rounded-lg">
                           <div className="flex items-start gap-2 text-secondary font-code-md text-xs">
                             <span className="material-symbols-outlined text-sm mt-0.5">terminal</span>
-                            <p className="text-[11px] leading-relaxed italic text-outline line-clamp-4">"{project.backend_logic}"</p>
+                            <p className="text-[11px] leading-relaxed italic text-outline">"{project.backend_logic}"</p>
                           </div>
                         </div>
                       )}
