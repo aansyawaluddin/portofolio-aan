@@ -71,7 +71,7 @@ export default async function Home() {
               <span className="material-symbols-outlined text-[18px] group-hover:scale-110 transition-transform">admin_panel_settings</span>
               <span className="font-label-caps text-xs hidden md:block">ADMIN</span>
             </a>
-            <button className="bg-primary text-on-primary font-bold px-stack-md py-stack-sm rounded hover:opacity-90 active:scale-95 transition-all text-xs uppercase tracking-widest">Resume</button>
+            {/* <button className="bg-primary text-on-primary font-bold px-stack-md py-stack-sm rounded hover:opacity-90 active:scale-95 transition-all text-xs uppercase tracking-widest">Resume</button> */}
           </div>
         </div>
       </header>
@@ -97,9 +97,9 @@ export default async function Home() {
               <a className="bg-primary text-on-primary px-8 py-3 rounded font-bold hover:opacity-90 active:scale-95 transition-all font-code-md flex items-center gap-2" href="#projects">
                 [ 🚀 Lihat Proyek Saya ]
               </a>
-              <button className="border border-outline text-on-surface px-8 py-3 rounded font-bold hover:bg-surface-variant active:scale-95 transition-all font-code-md">
+              {/* <button className="border border-outline text-on-surface px-8 py-3 rounded font-bold hover:bg-surface-variant active:scale-95 transition-all font-code-md">
                 [ 📄 Unduh CV ]
-              </button>
+              </button> */}
             </div>
           </div>
         </section>
@@ -275,15 +275,15 @@ export default async function Home() {
           <div className="bg-primary-container/20 border border-primary/30 rounded-3xl p-10 md:p-16 text-center space-y-8">
             <h2 className="font-headline-md text-headline-md text-primary">Mari berkolaborasi untuk menciptakan arsitektur sistem yang lebih baik.</h2>
             <div className="flex flex-wrap justify-center gap-6">
-              <a className="flex items-center gap-3 text-body-lg hover:text-primary transition-colors" href="mailto:a@gmail.com">
+              <a className="flex items-center gap-3 text-body-lg hover:text-primary transition-colors" href="mailto:aansyawaluddin22122003@gmail.com">
                 <span className="material-symbols-outlined">mail</span>
-                <span>a@gmail.com</span>
+                <span>aansyawaluddin22122003@gmail.com</span>
               </a>
-              <a className="flex items-center gap-3 text-body-lg hover:text-primary transition-colors" href="#">
+              <a className="flex items-center gap-3 text-body-lg hover:text-primary transition-colors" target="_blank" href="https://www.linkedin.com/in/aan-syawaluddin-adi-putra/">
                 <span className="material-symbols-outlined">link</span>
                 <span>LinkedIn</span>
               </a>
-              <a className="flex items-center gap-3 text-body-lg hover:text-primary transition-colors" href="#">
+              <a className="flex items-center gap-3 text-body-lg hover:text-primary transition-colors" target="_blank" href="https://github.com/aansyawaluddin">
                 <span className="material-symbols-outlined">terminal</span>
                 <span>GitHub</span>
               </a>
@@ -300,9 +300,9 @@ export default async function Home() {
             <div className="text-outline text-xs font-code-md">© 2026 DEPLOY_SUCCESS. Built with precision.</div>
           </div>
           <div className="flex flex-wrap justify-center gap-stack-lg">
-            <a className="font-code-md text-xs text-on-surface-variant hover:text-primary transition-colors" href="#">GitHub</a>
-            <a className="font-code-md text-xs text-on-surface-variant hover:text-primary transition-colors" href="#">LinkedIn</a>
-            <a className="font-code-md text-xs text-on-surface-variant hover:text-primary transition-colors" href="mailto:a@gmail.com">Email</a>
+            <a className="font-code-md text-xs text-on-surface-variant hover:text-primary transition-colors" target="_blank" href="https://github.com/aansyawaluddin">GitHub</a>
+            <a className="font-code-md text-xs text-on-surface-variant hover:text-primary transition-colors" target="_blank" href="https://www.linkedin.com/in/aan-syawaluddin-adi-putra/">LinkedIn</a>
+            <a className="font-code-md text-xs text-on-surface-variant hover:text-primary transition-colors" href="mailto:aansyawaluddin22122003@gmail.com">Email</a>
           </div>
           <div className="font-code-md text-[10px] text-outline/50 bg-surface-container-low/50 px-3 py-2 rounded border border-outline-variant/10">
             {`{ "status": 200, "message": "Thanks for scrolling!" }`}
